@@ -1,36 +1,31 @@
 from flask import Flask, render_template
 from twitoff.models import DB, User, Tweet
+from twitoff.twitter import update_all_users, add_or_update_user
+import os
 
 
 def create_app():
     app = Flask(__name__)
 
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///db.sqlite3"
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
     DB.init_app(app)
-
 
     @app.route("/")
     def root():
         users = User.query.all()
         return render_template('base.html', title="Home", users=users)
 
-
     app_title = "TwitOff"
-
 
     @app.route("/test")
     def test():
         return f"<p>Another { app_title } page</p>"
 
-
     @app.route("/hola")
     def hola():
         return "Hola TwitOff!"
-    
 
     @app.route("/reset")
     def reset():
@@ -40,7 +35,6 @@ def create_app():
         <a href='/'>Go to Home</a>
         <a href='/reset'>Go to Reset</a>
         <a href='/populate'>Go to Populate</a>"""
-    
 
     @app.route("/populate")
     def populate():
@@ -53,9 +47,16 @@ def create_app():
         DB.session.commit()
         return """Created some users.
         <a href='/'>Go to Home</a>
-        <a href='/reset'>Go to Reset</a>
         <a href='/populate'>Go to Populate</a>
         """
 
+    @app.route('/update')
+    def update():
+        usernames = update_all_users()
+        for username in usernames:
+            add_or_update_user(username)
+        return """All users updated.
+        <a href='/'>Go to Home</a>
+        """
 
     return app
