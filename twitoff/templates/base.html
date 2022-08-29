@@ -19,7 +19,7 @@
     <article class="flex two" style="padding: 3em 1em;">
       {% block content %}
         {% for user in users %}
-        <p>{{ user.username }}</p>
+        <a href='/user{{ user.id }}-tweets'>{{ user.username }}</a>
         {% endfor %}
       {% endblock %}
     </article>

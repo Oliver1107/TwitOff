@@ -1,3 +1,5 @@
+"""Create or update users for the app, and transform tweets."""
+
 import os
 import tweepy
 import spacy
@@ -16,10 +18,21 @@ nlp = spacy.load('my_model/')
 
 
 def vectorize_tweet(tweet_text):
+    """
+    Transform text from tweets into word vectors
+    in order for them to work with a machine learning model.
+    """
+
     return nlp(tweet_text).vector
 
 
 def add_or_update_user(username):
+    """
+    Adds users to flask database along with their 200 most recent
+    tweets. If user is already in the database, updates their tweets
+    in the database to include any tweets posted since last update.
+    """
+
     try:
         twitter_user = twitter_api.get_user(screen_name=username)
         db_user = (User.query.get(twitter_user.id)) or User(
@@ -28,8 +41,6 @@ def add_or_update_user(username):
             newest_tweet_id=None
         )
         DB.session.add(db_user)
-
-        # if db_user.tweets
 
         tweets = twitter_user.timeline(
             count=200,
@@ -61,6 +72,11 @@ def add_or_update_user(username):
 
 
 def update_all_users():
+    """
+    Gives a list of all users in database in order to
+    update any user with tweets not in the database.
+    """
+    
     usernames = []
     Users = User.query.all()
     for user in Users:
