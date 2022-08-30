@@ -21,7 +21,6 @@ class User(DB.Model):
     newest_tweet_id : int
         id of the user's last tweet.
     """
-
     id = DB.Column(
         DB.BigInteger,
         primary_key=True
@@ -41,7 +40,7 @@ class User(DB.Model):
 class Tweet(DB.Model):
     """
     Creates Tweet table.
-    
+
     ...
 
     Columns

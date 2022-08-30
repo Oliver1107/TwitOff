@@ -9,10 +9,8 @@ from twitoff.models import DB, User, Tweet
 key = os.getenv('TWITTER_API_KEY')
 secret = os.getenv('TWITTER_API_KEY_SECRET')
 
-
 twitter_auth = tweepy.OAuthHandler(key, secret)
 twitter_api = tweepy.API(twitter_auth)
-
 
 nlp = spacy.load('my_model/')
 
@@ -22,7 +20,6 @@ def vectorize_tweet(tweet_text):
     Transform text from tweets into word vectors
     in order for them to work with a machine learning model.
     """
-
     return nlp(tweet_text).vector
 
 
@@ -32,7 +29,6 @@ def add_or_update_user(username):
     tweets. If user is already in the database, updates their tweets
     in the database to include any tweets posted since last update.
     """
-
     try:
         twitter_user = twitter_api.get_user(screen_name=username)
         db_user = (User.query.get(twitter_user.id)) or User(
@@ -76,10 +72,8 @@ def update_all_users():
     Gives a list of all users in database in order to
     update any user with tweets not in the database.
     """
-    
     usernames = []
     Users = User.query.all()
     for user in Users:
         usernames.append(user.username)
-
     return usernames
