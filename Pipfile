@@ -11,6 +11,8 @@ tweepy = "*"
 spacy = "*"
 python-dotenv = "*"
 scikit-learn = "*"
+gunicorn = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
