@@ -24,7 +24,12 @@ def create_app():
         """
         Home page of the app.
         """
-        users = User.query.all()
+        try:
+            users = User.query.all()
+        except:
+            DB.drop_all()
+            DB.create_all()
+            users = User.query.all()
         return render_template('base.html', title="Home", users=users)
 
     @app.route("/user", methods=['POST'])
