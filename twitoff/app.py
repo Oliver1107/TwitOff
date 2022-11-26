@@ -30,7 +30,7 @@ def create_app():
             DB.drop_all()
             DB.create_all()
             users = User.query.all()
-        return render_template('base.html', title="Home", users=users)
+        return render_template('base.html', users=users)
 
     @app.route("/user", methods=['POST'])
     @app.route("/user/<name>", methods=['GET'])
