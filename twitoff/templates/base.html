@@ -23,7 +23,8 @@
     <article class="flex two" style="padding: 3em 1em;">
       {% block content %}
       <div>
-        <h1>Which User Is More Likely to Tweet This?</h1>
+        <h1>Which User is More Likely to Tweet This?</h1>
+        <h2>Select Users After Adding Them to Database</h2>
         <form action="/compare" method="post">
           <select name="user0">
             {% for user in users %}
@@ -40,7 +41,8 @@
         </form>
       </div>
       <div>
-        <h2>Users - Enter Twitter usernames to add them to the database</h2>
+        <h2>Users</h2>
+        <h3>Enter Twitter usernames to add them to the database</h3>
         {% for user in users %}
         <a href="/user/{{ user.username }}"><span class="stack">{{ user.username }}</span></a>
         {% endfor %}
